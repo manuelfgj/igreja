@@ -4,11 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -22,7 +25,10 @@ public class Diocese implements Serializable{
 	private String nome;
 	@JsonIgnore
 	@OneToMany(mappedBy = "diocese")
-	private List<Paroquia> paroquias = new ArrayList<>();
+	private List<Paroquia> paroquias = new ArrayList<>();	
+	@JoinColumn(name="endereco_id")
+	@OneToOne(cascade = CascadeType.ALL)
+	private Endereco endereco;
 	
 	public Diocese() {
 	}
@@ -55,6 +61,14 @@ public class Diocese implements Serializable{
 
 	public void setParoquias(List<Paroquia> paroquias) {
 		this.paroquias = paroquias;
+	}
+
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 
 	@Override

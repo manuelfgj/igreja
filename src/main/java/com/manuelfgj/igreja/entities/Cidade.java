@@ -1,47 +1,37 @@
 package com.manuelfgj.igreja.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Comunidade implements Serializable{
+public class Cidade implements Serializable{
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
-	@JoinColumn(name="endereco_id")
-	@OneToOne(cascade = CascadeType.ALL)
-	private Endereco endereco;
+	
+	//E o mais correto em usar mas foi removido por suspeitas de problemas
+	//@JsonManagedReference
 	@ManyToOne
-	@JoinColumn(name = "paroquia_id")
-	private Paroquia paroquia;
-	@JsonIgnore
-	@OneToMany(mappedBy = "comunidade")
-	private List<Grupo> grupos = new ArrayList<>();
+	@JoinColumn(name="estado_id")
+	private Estado estado;
 	
-	public Comunidade() {
+	public Cidade() {		
 	}
-	
-	public Comunidade(Integer id, String nome, Paroquia paroquia) {
+
+	public Cidade(Integer id, String nome, Estado estado) {
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.paroquia = paroquia;
+		this.estado = estado;
 	}
 
 	public Integer getId() {
@@ -59,29 +49,13 @@ public class Comunidade implements Serializable{
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
-	public Endereco getEndereco() {
-		return endereco;
+
+	public Estado getEstado() {
+		return estado;
 	}
 
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
-	}
-	
-	public Paroquia getParoquia() {
-		return paroquia;
-	}
-
-	public void setParoquia(Paroquia paroquia) {
-		this.paroquia = paroquia;
-	}
-
-	public List<Grupo> getGrupos() {
-		return grupos;
-	}
-
-	public void setGrupos(List<Grupo> grupos) {
-		this.grupos = grupos;
+	public void setEstado(Estado estado) {
+		this.estado = estado;
 	}
 
 	@Override
@@ -100,7 +74,7 @@ public class Comunidade implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Comunidade other = (Comunidade) obj;
+		Cidade other = (Cidade) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -108,5 +82,5 @@ public class Comunidade implements Serializable{
 			return false;
 		return true;
 	}
-
+	
 }

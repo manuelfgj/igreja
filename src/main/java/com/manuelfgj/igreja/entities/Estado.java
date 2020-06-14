@@ -4,44 +4,36 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Comunidade implements Serializable{
+public class Estado implements Serializable{
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
-	@JoinColumn(name="endereco_id")
-	@OneToOne(cascade = CascadeType.ALL)
-	private Endereco endereco;
-	@ManyToOne
-	@JoinColumn(name = "paroquia_id")
-	private Paroquia paroquia;
+	
+	//E o mais correto em usar mas foi substituido por suspeitas de problemas
+	//@JsonBackReference subst por @JsonIgnore
 	@JsonIgnore
-	@OneToMany(mappedBy = "comunidade")
-	private List<Grupo> grupos = new ArrayList<>();
+	@OneToMany(mappedBy="estado")
+	private List<Cidade> cidades = new ArrayList<>();
 	
-	public Comunidade() {
+	public Estado() {		
 	}
-	
-	public Comunidade(Integer id, String nome, Paroquia paroquia) {
+
+	public Estado(Integer id, String nome) {
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.paroquia = paroquia;
 	}
 
 	public Integer getId() {
@@ -59,29 +51,13 @@ public class Comunidade implements Serializable{
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
-	public Endereco getEndereco() {
-		return endereco;
+
+	public List<Cidade> getCidades() {
+		return cidades;
 	}
 
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
-	}
-	
-	public Paroquia getParoquia() {
-		return paroquia;
-	}
-
-	public void setParoquia(Paroquia paroquia) {
-		this.paroquia = paroquia;
-	}
-
-	public List<Grupo> getGrupos() {
-		return grupos;
-	}
-
-	public void setGrupos(List<Grupo> grupos) {
-		this.grupos = grupos;
+	public void setCidades(List<Cidade> cidades) {
+		this.cidades = cidades;
 	}
 
 	@Override
@@ -100,13 +76,13 @@ public class Comunidade implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Comunidade other = (Comunidade) obj;
+		Estado other = (Estado) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
+	}	
 
 }
