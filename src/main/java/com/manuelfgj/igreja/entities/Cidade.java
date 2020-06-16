@@ -6,8 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+
+import com.manuelfgj.igreja.entities.enuns.Estado;
 
 @Entity
 public class Cidade implements Serializable{
@@ -17,12 +17,7 @@ public class Cidade implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
-	
-	//E o mais correto em usar mas foi removido por suspeitas de problemas
-	//@JsonManagedReference
-	@ManyToOne
-	@JoinColumn(name="estado_id")
-	private Estado estado;
+	private Integer estado;
 	
 	public Cidade() {		
 	}
@@ -31,7 +26,7 @@ public class Cidade implements Serializable{
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.estado = estado;
+		this.estado = (estado == null) ? null : estado.getCod();
 	}
 
 	public Integer getId() {
@@ -51,11 +46,11 @@ public class Cidade implements Serializable{
 	}
 
 	public Estado getEstado() {
-		return estado;
+		return Estado.toEnum(estado);
 	}
 
 	public void setEstado(Estado estado) {
-		this.estado = estado;
+		this.estado = estado.getCod();
 	}
 
 	@Override

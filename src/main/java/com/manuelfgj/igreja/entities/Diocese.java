@@ -23,20 +23,22 @@ public class Diocese implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
+	private String telefone;
+	@JoinColumn(name="endereco_id")
+	@OneToOne(cascade = CascadeType.ALL)
+	private Endereco endereco;	
 	@JsonIgnore
 	@OneToMany(mappedBy = "diocese")
 	private List<Paroquia> paroquias = new ArrayList<>();	
-	@JoinColumn(name="endereco_id")
-	@OneToOne(cascade = CascadeType.ALL)
-	private Endereco endereco;
 	
 	public Diocese() {
 	}
 
-	public Diocese(Integer id, String nome) {
+	public Diocese(Integer id, String nome, String telefone) {
 		super();
 		this.id = id;
 		this.nome = nome;
+		this.telefone = telefone;
 	}
 
 	public Integer getId() {
@@ -55,6 +57,14 @@ public class Diocese implements Serializable{
 		this.nome = nome;
 	}
 	
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
 	public List<Paroquia> getParoquias() {
 		return paroquias;
 	}

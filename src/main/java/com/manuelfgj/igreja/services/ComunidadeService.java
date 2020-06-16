@@ -62,6 +62,6 @@ public class ComunidadeService {
 	}
 	
 	public Comunidade fromDTO(ComunidadeDTO objDto) {
-		return new Comunidade(objDto.getId(), objDto.getNome(), null);
+		return new Comunidade(objDto.getId(), objDto.getNome(), null, null);
 	}
 }

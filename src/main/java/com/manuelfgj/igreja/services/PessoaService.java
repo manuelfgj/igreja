@@ -10,36 +10,36 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
-import com.manuelfgj.igreja.dto.DioceseDTO;
-import com.manuelfgj.igreja.entities.Diocese;
-import com.manuelfgj.igreja.entities.repositories.DioceseRepository;
+import com.manuelfgj.igreja.dto.PessoaDTO;
+import com.manuelfgj.igreja.entities.Pessoa;
+import com.manuelfgj.igreja.entities.repositories.PessoaRepository;
 import com.manuelfgj.igreja.services.exceptions.DataIntegrityException;
 import com.manuelfgj.igreja.services.exceptions.ObjectNotFoundException;
 
 @Service
-public class DioceseService {
+public class PessoaService {
 	
 	@Autowired
-	DioceseRepository repo;
+	PessoaRepository repo;
 
-	public Diocese find(Integer id) {
-		Optional<Diocese> obj = repo.findById(id);
+	public Pessoa find(Integer id) {
+		Optional<Pessoa> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
-				"Objeto não encontrado! Id: " + id + ", Tipo: " + Diocese.class.getName()));
+				"Objeto não encontrado! Id: " + id + ", Tipo: " + Pessoa.class.getName()));
 	}
 	
-	public Diocese insert(Diocese obj) {
+	public Pessoa insert(Pessoa obj) {
 		obj.setId(null);
 		return repo.save(obj);
 	}
 	
-	public Diocese update(Diocese obj) {
-		Diocese newObj = find(obj.getId());
+	public Pessoa update(Pessoa obj) {
+		Pessoa newObj = find(obj.getId());
 		update(newObj, obj);
 		return repo.save(newObj);
 	}	
 	
-	private void update(Diocese newObj, Diocese obj) {
+	private void update(Pessoa newObj, Pessoa obj) {
 		newObj.setNome(obj.getNome());
 	}
 	
@@ -52,17 +52,17 @@ public class DioceseService {
 		}
 	}
 	
-	public List<Diocese> findAll(){
+	public List<Pessoa> findAll(){
 		return repo.findAll();
 	}
 	
-	public Page<Diocese> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
+	public Page<Pessoa> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
 	}
 	
-	public Diocese fromDTO(DioceseDTO objDto) {
-		return new Diocese(objDto.getId(), objDto.getNome(), null);
+	public Pessoa fromDTO(PessoaDTO objDto) {
+		return new Pessoa(objDto.getId(), objDto.getNome(), null, null, null, null, null, null);
 	}
 
 }

@@ -62,6 +62,6 @@ public class ParoquiaService {
 	}
 	
 	public Paroquia fromDTO(ParoquiaDTO objDto) {
-		return new Paroquia(objDto.getId(), objDto.getNome(), null, null, null);
+		return new Paroquia(objDto.getId(), objDto.getNome(), null, null, null, null);
 	}
 }

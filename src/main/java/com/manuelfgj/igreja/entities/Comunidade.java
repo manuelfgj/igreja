@@ -24,6 +24,7 @@ public class Comunidade implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
+	private String telefone;
 	@JoinColumn(name="endereco_id")
 	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
@@ -37,10 +38,11 @@ public class Comunidade implements Serializable{
 	public Comunidade() {
 	}
 	
-	public Comunidade(Integer id, String nome, Paroquia paroquia) {
+	public Comunidade(Integer id, String nome, String telefone, Paroquia paroquia) {
 		super();
 		this.id = id;
 		this.nome = nome;
+		this.telefone = telefone;
 		this.paroquia = paroquia;
 	}
 
@@ -58,6 +60,14 @@ public class Comunidade implements Serializable{
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
 	}
 	
 	public Endereco getEndereco() {
