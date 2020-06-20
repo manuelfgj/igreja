@@ -18,7 +18,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.manuelfgj.igreja.entities.enuns.EstadoCivil;
 import com.manuelfgj.igreja.entities.enuns.Sexo;
 
@@ -44,7 +43,9 @@ public class Pessoa implements Serializable{
 	@JoinColumn(name="endereco_id")
 	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
-	@JsonIgnore
+	@JoinColumn(name="comunidade_id")
+	@OneToOne(cascade = CascadeType.ALL)
+	private Comunidade comunidade;
 	@JoinColumn(name="grupo_id")
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Grupo> grupos = new ArrayList<>();
@@ -134,6 +135,14 @@ public class Pessoa implements Serializable{
 
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
+	}
+	
+	public Comunidade getComunidade() {
+		return comunidade;
+	}
+
+	public void setComunidade(Comunidade comunidade) {
+		this.comunidade = comunidade;
 	}
 
 	public List<Grupo> getGrupos() {

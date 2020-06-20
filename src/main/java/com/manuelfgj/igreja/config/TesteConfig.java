@@ -107,6 +107,7 @@ public class TesteConfig implements CommandLineRunner {
 		Pessoa pss4 = new Pessoa(null, "Anabela de Araújo Gomes", "83858148440", "98470940", "anabela@gmail.com", sdf.parse("24/01/2015"), Sexo.FEMININO, EstadoCivil.SOLTEIRO);
 		pessoaRepository.saveAll(Arrays.asList(pss1, pss2, pss3, pss4));
 		pss1.setEndereco(endrc7);
+		pss1.setComunidade(cmnd1);
 		pss1.getGrupos().addAll(Arrays.asList(grp1, grp2));	
 		pessoaRepository.saveAll(Arrays.asList(pss1));
 
