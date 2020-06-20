@@ -30,6 +30,7 @@ public class Paroquia implements Serializable{
 	@JoinColumn(name="endereco_id")
 	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "diocese_id")
 	private Diocese diocese;

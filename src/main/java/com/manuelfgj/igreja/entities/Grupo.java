@@ -1,13 +1,18 @@
 package com.manuelfgj.igreja.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Grupo implements Serializable{
@@ -16,10 +21,16 @@ public class Grupo implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
 	private String nome;
+	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "comunidade_id")
 	private Comunidade comunidade;
+	
+	@ManyToMany(mappedBy="grupos")
+	private List<Pessoa> pessoas = new ArrayList<>();
 	
 	public Grupo() {
 	}

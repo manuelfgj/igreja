@@ -28,6 +28,7 @@ public class Comunidade implements Serializable{
 	@JoinColumn(name="endereco_id")
 	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "paroquia_id")
 	private Paroquia paroquia;

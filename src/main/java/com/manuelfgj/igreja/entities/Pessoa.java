@@ -12,12 +12,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.manuelfgj.igreja.entities.enuns.EstadoCivil;
 import com.manuelfgj.igreja.entities.enuns.Sexo;
 
@@ -28,26 +30,59 @@ public class Pessoa implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
 	private String nome;
+	
 	@Column(unique = true)
 	private String cpf;
+	
 	@Column(unique = true)
 	private String celular;
+	
 	@Column(unique = true)
 	private String email;
+	
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataNasc;
+	
 	private Integer sexo;
+	
 	private Integer estadoCivil;
+	
+	@JoinColumn(name="pai_id")
+	@OneToOne(cascade = CascadeType.ALL)
+	private Pessoa pai;
+	
+	@JoinColumn(name="mae_id")
+	@OneToOne(cascade = CascadeType.ALL)
+	private Pessoa mae;
+	
+	@JsonIgnore
+	@JoinColumn(name="conjuge_id")
+	@OneToOne(cascade = CascadeType.ALL)
+	private Pessoa conjuge;
+	
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name = "PESSOA_FILHO",
+	joinColumns = @JoinColumn(name = "pessoa_id"),
+	inverseJoinColumns = @JoinColumn(name = "filho_id"))
+	private List<Pessoa> filhos = new ArrayList<>();
+	
 	@JoinColumn(name="endereco_id")
 	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
+	
 	@JoinColumn(name="comunidade_id")
 	@OneToOne(cascade = CascadeType.ALL)
 	private Comunidade comunidade;
-	@JoinColumn(name="grupo_id")
-	@OneToMany(cascade = CascadeType.ALL)
+	
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name = "PESSOA_GRUPO",
+	joinColumns = @JoinColumn(name = "pessoa_id"),
+	inverseJoinColumns = @JoinColumn(name = "grupo_id"))
 	private List<Grupo> grupos = new ArrayList<>();
 	
 	public Pessoa() {
@@ -129,6 +164,38 @@ public class Pessoa implements Serializable{
 		this.estadoCivil = estadoCivil.getCod();
 	}
 	
+	public Pessoa getPai() {
+		return pai;
+	}
+
+	public void setPai(Pessoa pai) {
+		this.pai = pai;
+	}
+
+	public Pessoa getMae() {
+		return mae;
+	}
+
+	public void setMae(Pessoa mae) {
+		this.mae = mae;
+	}	
+
+	public Pessoa getConjuge() {
+		return conjuge;
+	}
+
+	public void setConjuge(Pessoa conjuge) {
+		this.conjuge = conjuge;
+	}
+
+	public List<Pessoa> getFilhos() {
+		return filhos;
+	}
+
+	public void setFilhos(List<Pessoa> filhos) {
+		this.filhos = filhos;
+	}
+
 	public Endereco getEndereco() {
 		return endereco;
 	}

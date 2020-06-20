@@ -69,7 +69,7 @@ public class TesteConfig implements CommandLineRunner {
 		Grupo grp1 = new Grupo(null, "Pastoral da Catequese", cmnd1);
 		Grupo grp2 = new Grupo(null, "Pastoral do Dízimo", cmnd1);
 		Grupo grp3 = new Grupo(null, "Pastoral da Família", cmnd1);
-		Grupo grp4 = new Grupo(null, "Pastoral da Juventude", cmnd2);
+		Grupo grp4 = new Grupo(null, "Pastoral da Criança", cmnd2);
 		Grupo grp5 = new Grupo(null, "Legião de Maria", cmnd2);		
 		grupoRepository.saveAll(Arrays.asList(grp1, grp2, grp3, grp4, grp5));
 		
@@ -106,10 +106,26 @@ public class TesteConfig implements CommandLineRunner {
 		Pessoa pss3 = new Pessoa(null, "Davi de Araújo Gomes", "83858148430", "98470930", "davi@gmail.com", sdf.parse("22/04/2005"), Sexo.MASCULINO, EstadoCivil.SOLTEIRO);
 		Pessoa pss4 = new Pessoa(null, "Anabela de Araújo Gomes", "83858148440", "98470940", "anabela@gmail.com", sdf.parse("24/01/2015"), Sexo.FEMININO, EstadoCivil.SOLTEIRO);
 		pessoaRepository.saveAll(Arrays.asList(pss1, pss2, pss3, pss4));
+		
 		pss1.setEndereco(endrc7);
 		pss1.setComunidade(cmnd1);
 		pss1.getGrupos().addAll(Arrays.asList(grp1, grp2));	
-		pessoaRepository.saveAll(Arrays.asList(pss1));
+		pss1.setConjuge(pss2);
+		pss1.getFilhos().addAll(Arrays.asList(pss3, pss4));	
+		
+		pss2.setEndereco(endrc7);
+		pss2.setComunidade(cmnd1);
+		pss2.getGrupos().addAll(Arrays.asList(grp1, grp3));
+		pss2.setConjuge(pss1);
+		pss2.getFilhos().addAll(Arrays.asList(pss3, pss4));	
+		
+		pss3.setPai(pss1);
+		pss3.setMae(pss2);
+		
+		pss4.setPai(pss1);
+		pss4.setMae(pss2);		
+		
+		pessoaRepository.saveAll(Arrays.asList(pss1, pss2, pss3, pss4));
 
 	}
 	
