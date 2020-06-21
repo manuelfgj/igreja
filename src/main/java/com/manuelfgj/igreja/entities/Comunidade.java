@@ -36,6 +36,9 @@ public class Comunidade implements Serializable{
 	@OneToMany(mappedBy = "comunidade")
 	private List<Grupo> grupos = new ArrayList<>();
 	
+	@OneToMany(mappedBy = "comunidade", cascade = CascadeType.ALL)
+	private List<Doacao> doacoes = new ArrayList<>();
+	
 	public Comunidade() {
 	}
 	
@@ -93,6 +96,14 @@ public class Comunidade implements Serializable{
 
 	public void setGrupos(List<Grupo> grupos) {
 		this.grupos = grupos;
+	}
+
+	public List<Doacao> getDoacoes() {
+		return doacoes;
+	}
+
+	public void setDoacoes(List<Doacao> doacoes) {
+		this.doacoes = doacoes;
 	}
 
 	@Override

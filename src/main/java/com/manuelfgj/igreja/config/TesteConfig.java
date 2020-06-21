@@ -11,16 +11,20 @@ import org.springframework.context.annotation.Profile;
 import com.manuelfgj.igreja.entities.Cidade;
 import com.manuelfgj.igreja.entities.Comunidade;
 import com.manuelfgj.igreja.entities.Diocese;
+import com.manuelfgj.igreja.entities.Doacao;
 import com.manuelfgj.igreja.entities.Endereco;
 import com.manuelfgj.igreja.entities.Grupo;
 import com.manuelfgj.igreja.entities.Paroquia;
 import com.manuelfgj.igreja.entities.Pessoa;
 import com.manuelfgj.igreja.entities.enuns.Estado;
 import com.manuelfgj.igreja.entities.enuns.EstadoCivil;
+import com.manuelfgj.igreja.entities.enuns.FormaDoacao;
 import com.manuelfgj.igreja.entities.enuns.Sexo;
+import com.manuelfgj.igreja.entities.enuns.TipoDoacao;
 import com.manuelfgj.igreja.entities.repositories.CidadeRepository;
 import com.manuelfgj.igreja.entities.repositories.ComunidadeRepository;
 import com.manuelfgj.igreja.entities.repositories.DioceseRepository;
+import com.manuelfgj.igreja.entities.repositories.DoacaoRepository;
 import com.manuelfgj.igreja.entities.repositories.EnderecoRepository;
 import com.manuelfgj.igreja.entities.repositories.GrupoRepository;
 import com.manuelfgj.igreja.entities.repositories.ParoquiaRepository;
@@ -50,6 +54,9 @@ public class TesteConfig implements CommandLineRunner {
 	
 	@Autowired
 	private PessoaRepository pessoaRepository;
+	
+	@Autowired
+	private DoacaoRepository doacaoRepository;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -126,7 +133,18 @@ public class TesteConfig implements CommandLineRunner {
 		pss4.setMae(pss2);		
 		
 		pessoaRepository.saveAll(Arrays.asList(pss1, pss2, pss3, pss4));
-
+		
+		Doacao dc1 = new Doacao(null, 25.0, sdf.parse("21/06/2020 10:00"), TipoDoacao.DIZIMO, FormaDoacao.DINHEIRO, pss1, cmnd1);
+		Doacao dc2 = new Doacao(null, 25.0, sdf.parse("21/06/2020 10:10"), TipoDoacao.DIZIMO, FormaDoacao.DINHEIRO, pss2, cmnd1);
+		Doacao dc3 = new Doacao(null, 5.0, sdf.parse("21/06/2020 11:30"), TipoDoacao.OFERTA, FormaDoacao.DINHEIRO, pss1, cmnd1);
+		doacaoRepository.saveAll(Arrays.asList(dc1, dc2, dc3));
+		
+		pss1.getDoacoes().addAll(Arrays.asList(dc1,dc3));
+		pss2.getDoacoes().addAll(Arrays.asList(dc2));
+		pessoaRepository.saveAll(Arrays.asList(pss1, pss2));
+		
+		cmnd1.getDoacoes().addAll(Arrays.asList(dc1,dc2,dc3));
+		comunidadeRepository.saveAll(Arrays.asList(cmnd1));
 	}
 	
 	
