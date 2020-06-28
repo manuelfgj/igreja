@@ -1,12 +1,11 @@
-package com.manuelfgj.igreja.config;
+package com.manuelfgj.igreja.services;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Service;
 
 import com.manuelfgj.igreja.entities.Cidade;
 import com.manuelfgj.igreja.entities.Comunidade;
@@ -30,10 +29,9 @@ import com.manuelfgj.igreja.entities.repositories.GrupoRepository;
 import com.manuelfgj.igreja.entities.repositories.ParoquiaRepository;
 import com.manuelfgj.igreja.entities.repositories.PessoaRepository;
 
-@Configuration
-@Profile("test")
-public class TesteConfig implements CommandLineRunner {
-
+@Service
+public class DBService {
+	
 	@Autowired
 	private DioceseRepository dioceseRepository;
 	
@@ -58,9 +56,7 @@ public class TesteConfig implements CommandLineRunner {
 	@Autowired
 	private DoacaoRepository doacaoRepository;
 	
-	@Override
-	public void run(String... args) throws Exception {
-		
+	public void instantiateTestDatabase() throws ParseException {
 		Diocese dcs1 = new Diocese(null, "Arquidiocese de Natal", "36152810");	
 		dioceseRepository.saveAll(Arrays.asList(dcs1));
 		
@@ -146,6 +142,5 @@ public class TesteConfig implements CommandLineRunner {
 		cmnd1.getDoacoes().addAll(Arrays.asList(dc1,dc2,dc3));
 		comunidadeRepository.saveAll(Arrays.asList(cmnd1));
 	}
-	
-	
+
 }
